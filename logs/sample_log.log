@@ -1,0 +1,60 @@
+2026-10-28 09:12:01,245 [INFO] app.server: Starting OrderService v3.4.1 on host order-svc-01
+2026-10-28 09:12:01,611 [INFO] app.config: Loaded configuration profile "production"
+2026-10-28 09:12:02,034 [INFO] app.db: Connection pool initialised (min=5, max=20)
+2026-10-28 09:12:02,870 [INFO] app.cache: Redis cache connected at redis://cache-01:6379/0
+2026-10-28 09:12:03,415 [INFO] app.server: Application startup complete, listening on 0.0.0.0:8080
+2026-10-28 09:14:22,118 [INFO] app.orders: Received POST /api/v1/orders from 10.20.4.17
+2026-10-28 09:14:22,164 [INFO] app.orders: Validating payload for customer_id=48213
+2026-10-28 09:14:22,301 [INFO] app.inventory: Reserving stock for sku=SKU-99812 qty=3
+2026-10-28 09:14:22,687 [ERROR] app.orders: Unhandled exception while processing order 7781203
+Traceback (most recent call last):
+  File "/srv/orderservice/app/orders.py", line 142, in create_order
+    reservation = inventory_client.reserve(order.items)
+  File "/srv/orderservice/app/inventory.py", line 88, in reserve
+    stock_level = self._stock_cache[item.sku]["available"]
+KeyError: 'SKU-99812'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/orderservice/app/orders.py", line 151, in create_order
+    return self._fallback_reserve(order)
+  File "/srv/orderservice/app/orders.py", line 197, in _fallback_reserve
+    raise OrderProcessingError(f"Unable to reserve stock for order {order.id}")
+app.errors.OrderProcessingError: Unable to reserve stock for order 7781203
+2026-10-28 09:14:22,702 [INFO] app.http: Responded 500 to POST /api/v1/orders in 584ms
+2026-10-28 09:15:07,903 [INFO] app.orders: Received GET /api/v1/orders/7781190 from 10.20.4.22
+2026-10-28 09:15:07,951 [INFO] app.http: Responded 200 to GET /api/v1/orders/7781190 in 48ms
+2026-10-28 09:18:44,310 [INFO] app.payments: Initiating payment capture for order 7781204
+2026-10-28 09:18:44,822 [INFO] app.payments: Payment gateway responded in 512ms
+2026-10-28 09:21:30,556 [INFO] app.scheduler: Running nightly reconciliation job early (manual trigger)
+2026-10-28 09:21:31,009 [INFO] app.reports: Generating revenue report for 2026-10-27
+2026-10-28 09:21:31,440 [ERROR] app.reports: Failed to generate revenue report for 2026-10-27
+Traceback (most recent call last):
+  File "/srv/orderservice/app/reports.py", line 63, in generate_daily_report
+    average_order_value = total_revenue / order_count
+ZeroDivisionError: division by zero
+2026-10-28 09:21:31,452 [INFO] app.scheduler: Reconciliation job finished with 1 failure
+2026-10-28 09:34:09,127 [INFO] app.db: Connection pool usage at 18/20
+2026-10-28 09:35:12,640 [INFO] app.db: Connection pool usage at 20/20
+2026-10-28 09:35:42,771 [CRITICAL] app.db: Database connection pool exhausted, service is unable to serve requests
+Traceback (most recent call last):
+  File "/srv/orderservice/venv/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 1146, in _do_get
+    return self._pool.get(wait, self._timeout)
+  File "/usr/local/lib/python3.11/queue.py", line 179, in get
+    raise Empty
+_queue.Empty
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/orderservice/app/db.py", line 54, in get_session
+    session = self._session_factory()
+  File "/srv/orderservice/venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 3300, in __call__
+    return self._connect()
+  File "/srv/orderservice/venv/lib/python3.11/site-packages/sqlalchemy/pool/base.py", line 1261, in _do_get
+    raise exc.TimeoutError(
+sqlalchemy.exc.TimeoutError: QueuePool limit of size 20 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+2026-10-28 09:35:42,780 [INFO] app.health: Health check failing, marking instance order-svc-01 as unhealthy
+2026-10-28 09:36:15,002 [INFO] app.db: Pool recovered, 4/20 connections in use
+2026-10-28 09:36:15,330 [INFO] app.health: Instance order-svc-01 marked healthy again

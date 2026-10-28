@@ -1,0 +1,22 @@
+[
+    {
+        "timestamp": "2026-10-26 09:01:10",
+        "level": "ERROR",
+        "service": "database",
+        "message": "Database connection failed.",
+        "stack_trace": "",
+        "severity": "HIGH",
+        "root_cause": "The database connection failed, but the specific cause is uncertain due to the absence of a stack trace or detailed error message in the log. Potential causes include database server downtime, network connectivity issues, invalid credentials, or connection pool exhaustion.",
+        "suggested_fix": "1. Verify if the database server is running and accessible. 2. Check network connectivity and firewall rules between the service and the database. 3. Validate connection configuration settings and credentials. 4. Inspect the database server logs for detailed failure reasons."
+    },
+    {
+        "timestamp": "2026-10-26 09:02:30",
+        "level": "CRITICAL",
+        "service": "database",
+        "message": "Database query timed out.",
+        "stack_trace": "",
+        "severity": "CRITICAL",
+        "root_cause": "A database query timed out before completion. The exact cause is uncertain due to the lack of a stack trace or query details, but potential reasons include long-running/unindexed queries, database resource exhaustion, lock contention, or network latency.",
+        "suggested_fix": "1. Check database slow query logs to identify the specific query that timed out.\n2. Inspect active database connections, lock waits, and resource utilization (CPU, memory, disk I/O).\n3. Optimize the problematic query, add missing indexes, or consider increasing the query timeout threshold if appropriate."
+    }
+]

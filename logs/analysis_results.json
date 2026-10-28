@@ -1,0 +1,32 @@
+[
+  {
+    "error_id": 1,
+    "line_number": 9,
+    "timestamp": "2026-10-28 09:14:22.687",
+    "level": "ERROR",
+    "message": "app.orders: Unhandled exception while processing order 7781203",
+    "stack_trace": "Traceback (most recent call last):\n  File \"/srv/orderservice/app/orders.py\", line 142, in create_order\n    reservation = inventory_client.reserve(order.items)\n  File \"/srv/orderservice/app/inventory.py\", line 88, in reserve\n    stock_level = self._stock_cache[item.sku][\"available\"]\nKeyError: 'SKU-99812'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/srv/orderservice/app/orders.py\", line 151, in create_order\n    return self._fallback_reserve(order)\n  File \"/srv/orderservice/app/orders.py\", line 197, in _fallback_reserve\n    raise OrderProcessingError(f\"Unable to reserve stock for order {order.id}\")\napp.errors.OrderProcessingError: Unable to reserve stock for order 7781203",
+    "analysis": null,
+    "analysis_error": "ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).', 'status': 'NOT_FOUND'}}"
+  },
+  {
+    "error_id": 2,
+    "line_number": 32,
+    "timestamp": "2026-10-28 09:21:31.440",
+    "level": "ERROR",
+    "message": "app.reports: Failed to generate revenue report for 2026-10-27",
+    "stack_trace": "Traceback (most recent call last):\n  File \"/srv/orderservice/app/reports.py\", line 63, in generate_daily_report\n    average_order_value = total_revenue / order_count\nZeroDivisionError: division by zero",
+    "analysis": null,
+    "analysis_error": "ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).', 'status': 'NOT_FOUND'}}"
+  },
+  {
+    "error_id": 3,
+    "line_number": 40,
+    "timestamp": "2026-10-28 09:35:42.771",
+    "level": "CRITICAL",
+    "message": "app.db: Database connection pool exhausted, service is unable to serve requests",
+    "stack_trace": "Traceback (most recent call last):\n  File \"/srv/orderservice/venv/lib/python3.11/site-packages/sqlalchemy/pool/base.py\", line 1146, in _do_get\n    return self._pool.get(wait, self._timeout)\n  File \"/usr/local/lib/python3.11/queue.py\", line 179, in get\n    raise Empty\n_queue.Empty\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/srv/orderservice/app/db.py\", line 54, in get_session\n    session = self._session_factory()\n  File \"/srv/orderservice/venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py\", line 3300, in __call__\n    return self._connect()\n  File \"/srv/orderservice/venv/lib/python3.11/site-packages/sqlalchemy/pool/base.py\", line 1261, in _do_get\n    raise exc.TimeoutError(\nsqlalchemy.exc.TimeoutError: QueuePool limit of size 20 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)",
+    "analysis": null,
+    "analysis_error": "ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).', 'status': 'NOT_FOUND'}}"
+  }
+]
